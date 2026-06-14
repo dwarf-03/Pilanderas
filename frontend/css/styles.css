@@ -1,0 +1,706 @@
+/* =====================================================
+   SISTEMA TURÍSTICO — LAS PILANDERAS
+   Diseño elegante — Riohacha Cultural
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-primario   : #A52A2A;   /* Rojo mochila wayuu          */
+  --color-secundario : #3E2723;   /* Marrón/café oscuro (cuerpo)  */
+  --color-acento     : #D4A574;   /* Beige tostado (segunda mochila) */
+  --color-fondo      : #F5EBDD;   /* Crema arena                  */
+  --color-fondo2     : #E8D4BC;   /* Beige más oscuro             */
+  --color-texto      : #2B1E14;
+  --color-texto-suave: #7A6450;
+  --borde-suave      : #E1CDAE;
+  --color-crema      : #F5E6D3;   /* Crema de los triángulos      */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family    : 'Inter', sans-serif;
+  color          : var(--color-texto);
+
+  /* ── Textura inspirada en tejidos wayuu (kanaas) ── */
+  background-color: var(--color-fondo);
+  background-image:
+    linear-gradient(135deg, rgba(166,81,44,0.045) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(166,81,44,0.045) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(166,81,44,0.045) 25%, transparent 25%),
+    linear-gradient(45deg,  rgba(166,81,44,0.045) 25%, transparent 25%),
+    linear-gradient(135deg, rgba(201,162,39,0.04) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(201,162,39,0.04) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(201,162,39,0.04) 25%, transparent 25%),
+    linear-gradient(45deg,  rgba(201,162,39,0.04) 25%, transparent 25%);
+  background-size: 56px 56px;
+  background-position:
+    0 0, 0 0, 28px 28px, 28px 28px,
+    14px 14px, 14px 14px, 42px 42px, 42px 42px;
+  background-attachment: fixed;
+}
+
+body {
+  font-family    : 'Inter', sans-serif;
+  color          : var(--color-texto);
+  background-color: var(--color-fondo);
+
+  /* ── Textura de mochila wayuu (imagen) ──────────── */
+  background-image: url("../images/mochila.png");
+  background-repeat: repeat;
+  background-size: 300px auto;
+  background-attachment: fixed;
+}
+
+/* Tipografía elegante para títulos */
+h1, h2, h3, h4, .titulo-serif {
+  font-family    : 'Playfair Display', serif;
+}
+
+/* ── Topbar / Header ─────────────────────────────── */
+.navbar-pilanderas {
+  background     : var(--color-fondo);
+  border-bottom  : 2px solid var(--color-acento);
+  padding        : 1.3rem 2rem;
+  box-shadow     : 0 2px 12px rgba(43,30,20,0.06);
+
+  display        : flex;
+  flex-wrap      : nowrap;
+  align-items    : center;
+  justify-content: flex-start;
+  gap            : 1.2rem;
+
+  /* ── Fijo arriba al hacer scroll ─────────────────── */
+  position       : sticky;
+  top            : 0;
+  z-index        : 1000;
+}
+
+.navbar-pilanderas .logo-header {
+  width          : 64px;
+  height         : 64px;
+  min-width      : 64px;
+  object-fit     : contain;
+  border-radius  : 50%;
+  background     : white;
+  padding        : 5px;
+  box-shadow     : 0 2px 8px rgba(43,30,20,0.12);
+}
+
+.navbar-pilanderas .marca-texto h5 {
+  font-family    : 'Playfair Display', serif;
+  letter-spacing : 0.14em;
+  color          : var(--color-secundario);
+  margin         : 0;
+  font-size      : 1.4rem;
+  white-space    : nowrap;
+}
+
+.navbar-pilanderas .marca-texto small {
+  letter-spacing : 0.18em;
+  color          : var(--color-texto-suave);
+  font-size      : 0.75rem;
+  white-space    : nowrap;
+}
+
+/* ── Hero del formulario (fondo con textura) ────── */
+.hero-form {
+  background-color : var(--color-fondo2);
+  background-image : 
+    repeating-linear-gradient(45deg, rgba(181,101,29,0.05) 0px, rgba(181,101,29,0.05) 1px, transparent 1px, transparent 14px),
+    repeating-linear-gradient(-45deg, rgba(181,101,29,0.05) 0px, rgba(181,101,29,0.05) 1px, transparent 1px, transparent 14px);
+  padding         : 3.5rem 1.5rem 3rem;
+  text-align      : center;
+}
+
+.badge-monumento {
+  display         : inline-flex;
+  align-items     : center;
+  gap             : 0.5rem;
+  background      : rgba(181,101,29,0.12);
+  color           : var(--color-primario);
+  border          : 1px solid rgba(181,101,29,0.25);
+  border-radius   : 50px;
+  padding         : 0.35rem 1.2rem;
+  font-size       : 0.75rem;
+  letter-spacing  : 0.15em;
+  font-weight     : 600;
+  text-transform  : uppercase;
+}
+
+.badge-monumento .dot {
+  width  : 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--color-primario);
+  display: inline-block;
+}
+
+.hero-form h1 {
+  font-size       : 3rem;
+  font-weight     : 700;
+  color           : var(--color-texto);
+  margin          : 1rem 0 0;
+  line-height     : 1.1;
+}
+
+.hero-form h1 em {
+  display         : block;
+  font-style      : italic;
+  font-weight     : 500;
+  color           : var(--color-acento);
+}
+
+.hero-form p.subtitulo {
+  max-width       : 480px;
+  margin          : 1.25rem auto 0;
+  color           : var(--color-texto-suave);
+  font-size       : 1rem;
+}
+
+/* ── Indicador de pasos ───────────────────────────── */
+.pasos-indicador {
+  display         : flex;
+  justify-content : center;
+  align-items     : center;
+  gap             : 0.75rem;
+  margin-top      : 2.5rem;
+}
+
+.paso-circulo {
+  width           : 42px;
+  height          : 42px;
+  border-radius   : 50%;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  font-weight     : 700;
+  font-family     : 'Playfair Display', serif;
+  border          : 2px solid var(--borde-suave);
+  color           : var(--color-texto-suave);
+  background      : var(--color-fondo);
+  transition      : all 0.3s;
+}
+
+.paso-circulo.activo {
+  border-color    : var(--color-primario);
+  color           : var(--color-primario);
+  background      : rgba(181,101,29,0.08);
+}
+
+.paso-circulo.completado {
+  border-color    : var(--color-primario);
+  background      : var(--color-primario);
+  color           : white;
+}
+
+.paso-linea {
+  width           : 60px;
+  height          : 1px;
+  background      : var(--borde-suave);
+}
+
+.pasos-labels {
+  display         : flex;
+  justify-content : center;
+  gap             : 2.7rem;
+  margin-top      : 0.5rem;
+}
+
+.pasos-labels span {
+  font-size       : 0.7rem;
+  letter-spacing  : 0.15em;
+  color           : var(--color-texto-suave);
+  width           : 42px;
+  text-align      : center;
+}
+
+/* ── Cuerpo del formulario ────────────────────────── */
+.cuerpo-form {
+  background      : var(--color-fondo);
+  padding         : 3rem 1.5rem;
+}
+
+.label-grupo {
+  font-weight     : 600;
+  font-size       : 0.78rem;
+  letter-spacing  : 0.15em;
+  color           : var(--color-primario);
+  text-transform  : uppercase;
+  display         : flex;
+  align-items     : center;
+  gap             : 0.6rem;
+  margin-bottom   : 0.75rem;
+}
+
+.label-grupo::before {
+  content         : '';
+  display         : inline-block;
+  width           : 22px;
+  height          : 2px;
+  background      : var(--color-primario);
+}
+
+/* ── Botones de selección tipo chip ───────────────── */
+.grupo-opciones {
+  display         : flex;
+  flex-wrap       : wrap;
+  gap             : 0.7rem;
+}
+
+.opcion-btn {
+  padding         : 0.7rem 1.3rem;
+  border          : 1.5px solid var(--borde-suave);
+  border-radius   : 10px;
+  background      : white;
+  color           : var(--color-texto);
+  font-size       : 0.92rem;
+  font-weight     : 500;
+  cursor          : pointer;
+  transition      : all 0.2s;
+}
+
+.opcion-btn:hover {
+  border-color    : var(--color-acento);
+  color           : var(--color-primario);
+}
+
+.opcion-btn.seleccionado {
+  border-color    : var(--color-primario);
+  background      : var(--color-primario);
+  color           : white;
+  font-weight     : 600;
+}
+
+/* ── Inputs ────────────────────────────────────────── */
+.form-control, .form-select {
+  border          : 1.5px solid var(--borde-suave);
+  border-radius   : 10px;
+  padding         : 0.7rem 1rem;
+  background      : white;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color    : var(--color-primario);
+  box-shadow      : 0 0 0 3px rgba(181,101,29,0.12);
+}
+
+/* ── Botón principal ──────────────────────────────── */
+.btn-pilanderas {
+  background      : var(--color-primario);
+  color           : white;
+  border          : none;
+  border-radius   : 10px;
+  padding         : 0.85rem 2.2rem;
+  font-size       : 1rem;
+  font-weight     : 600;
+  width           : 100%;
+  transition      : background 0.3s;
+}
+
+.btn-pilanderas:hover {
+  background      : var(--color-secundario);
+  color           : white;
+}
+
+/* ── Estrellas ─────────────────────────────────────── */
+.estrellas {
+  display         : flex;
+  gap             : 0.5rem;
+  justify-content : center;
+  margin          : 0.5rem 0;
+}
+
+.estrella {
+  font-size       : 2rem;
+  cursor          : pointer;
+  color           : var(--borde-suave);
+  transition      : color 0.2s, transform 0.2s;
+}
+
+.estrella.activa, .estrella:hover {
+  color           : var(--color-primario);
+  transform       : scale(1.15);
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.footer-custom {
+  background      : var(--color-secundario);
+  color           : rgba(255,255,255,0.85);
+  text-align      : center;
+  padding         : 1.5rem;
+  font-size       : 0.85rem;
+}
+
+@media (max-width: 576px) {
+  .hero-form h1 { font-size: 2.2rem; }
+  .paso-linea { width: 30px; }
+  .pasos-labels { gap: 1.6rem; }
+}
+
+/* =====================================================
+   PASO 2 — ESTILO LUXURY GUAJIRO
+   ===================================================== */
+
+/* ── Tarjeta principal del formulario ────────────── */
+.card-formulario {
+  border          : 1px solid var(--borde-suave);
+  border-top      : 4px solid var(--color-acento);
+  border-radius   : 14px;
+  background      : #FFFDF8;
+  box-shadow      : 0 10px 35px rgba(90,46,27,0.10);
+  overflow        : hidden;
+}
+
+.card-formulario .card-header {
+  background      : linear-gradient(135deg, var(--color-secundario), var(--color-primario));
+  color           : #F7EFE3;
+  font-family     : 'Playfair Display', serif;
+  font-size       : 1.25rem;
+  font-weight     : 700;
+  letter-spacing  : 0.04em;
+  padding         : 1.1rem 1.5rem;
+  border-bottom   : none;
+  position        : relative;
+}
+
+/* Detalle decorativo tipo "kanas" en el header */
+.card-formulario .card-header::after {
+  content         : '';
+  position        : absolute;
+  bottom          : 0; left: 0; right: 0;
+  height          : 4px;
+  background      : repeating-linear-gradient(
+                      45deg,
+                      var(--color-acento) 0px, var(--color-acento) 8px,
+                      transparent 8px, transparent 16px
+                    );
+  opacity         : 0.6;
+}
+
+.card-formulario .card-body {
+  padding         : 2.2rem 1.8rem;
+}
+
+/* ── Refuerzo sutil de la textura general ────────── */
+body {
+  background-size: 48px 48px;
+}
+
+/* ── Etiquetas de grupo más refinadas ────────────── */
+.label-grupo {
+  font-family     : 'Playfair Display', serif;
+  font-weight     : 600;
+  font-size       : 0.85rem;
+  letter-spacing  : 0.18em;
+  color           : var(--color-secundario);
+}
+
+.label-grupo::before {
+  background      : var(--color-acento);
+  height          : 2px;
+}
+
+/* ── Chips más elegantes ──────────────────────────── */
+.opcion-btn {
+  border          : 1.5px solid var(--borde-suave);
+  border-radius   : 8px;
+  font-weight     : 500;
+  letter-spacing  : 0.02em;
+}
+
+.opcion-btn.seleccionado {
+  background      : linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+  border-color    : var(--color-secundario);
+  color           : #FBEFD8;
+  box-shadow      : 0 4px 12px rgba(166,81,44,0.25);
+}
+
+.opcion-btn:hover {
+  border-color    : var(--color-acento);
+  background      : rgba(201,162,39,0.08);
+}
+
+/* ── Inputs con detalle dorado al enfocar ─────────── */
+.form-control:focus, .form-select:focus {
+  border-color    : var(--color-acento);
+  box-shadow      : 0 0 0 3px rgba(201,162,39,0.18);
+}
+
+/* ── Estrellas doradas ───────────────────────────── */
+.estrella.activa, .estrella:hover {
+  color           : var(--color-acento);
+  text-shadow     : 0 2px 6px rgba(201,162,39,0.35);
+}
+
+/* ── Botón principal con brillo dorado ───────────── */
+.btn-pilanderas {
+  background      : linear-gradient(135deg, var(--color-secundario), var(--color-primario));
+  font-family     : 'Playfair Display', serif;
+  font-weight     : 700;
+  letter-spacing  : 0.05em;
+  box-shadow      : 0 6px 18px rgba(90,46,27,0.25);
+  border          : 1px solid var(--color-acento);
+}
+
+.btn-pilanderas:hover {
+  background      : linear-gradient(135deg, var(--color-primario), var(--color-acento));
+  box-shadow      : 0 8px 22px rgba(201,162,39,0.35);
+}
+
+/* ── Contenedor general centrado tipo "marco" ────── */
+main.container {
+  max-width       : 760px;
+}
+
+/* ── Separador decorativo tipo kanas ─────────────── */
+.separador-kanas {
+  height          : 6px;
+  width           : 100%;
+  margin          : 2rem 0;
+  background      : repeating-linear-gradient(
+                      45deg,
+                      var(--color-acento) 0px, var(--color-acento) 6px,
+                      var(--color-primario) 6px, var(--color-primario) 12px,
+                      transparent 12px, transparent 18px
+                    );
+  border-radius   : 4px;
+  opacity         : 0.55;
+}
+
+
+/* =====================================================
+  CORRECCIONES — Navegación cultural y tarjeta
+   ===================================================== */
+
+/* Forzar nuestros colores sobre Bootstrap */
+#navCultural {
+  flex-wrap       : nowrap;
+  overflow-x      : auto;
+  padding-bottom  : 0.5rem;
+}
+
+#navCultural .nav-link {
+  background-color: white !important;
+  border          : 1.5px solid var(--borde-suave) !important;
+  border-radius   : 50px !important;
+  color           : var(--color-texto) !important;
+  font-size       : 0.8rem !important;
+  font-weight     : 500 !important;
+  white-space     : nowrap !important;
+  padding         : 0.5rem 1.2rem !important;
+  letter-spacing  : 0.03em;
+  flex-shrink     : 0;
+}
+
+#navCultural .nav-link.active,
+#navCultural .nav-link:hover {
+  background: linear-gradient(135deg, var(--color-primario), var(--color-secundario)) !important;
+  border-color: var(--color-secundario) !important;
+  color: white !important;
+}
+
+/* Tarjeta de la sección cultural — fondo sólido */
+.seccion-cultural {
+  background-color: #FFFDF8 !important;
+  border           : 1px solid var(--borde-suave);
+  border-radius    : 14px;
+  box-shadow       : 0 10px 35px rgba(90,46,27,0.08);
+  padding          : 2rem;
+  position         : relative;
+  z-index          : 1;
+}
+
+/* Ocultar scrollbar del nav pero mantener el scroll */
+#navCultural::-webkit-scrollbar {
+  height: 4px;
+}
+#navCultural::-webkit-scrollbar-thumb {
+  background: var(--color-acento);
+  border-radius: 4px;
+}
+
+
+/* =====================================================
+  BOTÓN GOOGLE MAPS — paleta wayuu
+   ===================================================== */
+.btn-maps {
+  background      : linear-gradient(135deg, var(--color-acento), var(--color-primario));
+  color           : white;
+  border          : 1px solid var(--color-secundario);
+  border-radius   : 10px;
+  padding         : 0.85rem 2.2rem;
+  font-size       : 1rem;
+  font-weight     : 600;
+  text-decoration : none;
+  display         : inline-block;
+  transition      : all 0.3s;
+  box-shadow      : 0 6px 18px rgba(165,42,42,0.20);
+}
+
+.btn-maps:hover {
+  background      : linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+  color           : white;
+  box-shadow      : 0 8px 22px rgba(62,39,35,0.30);
+  transform       : translateY(-1px);
+}
+
+/* ── Botón de acceso al panel admin ──────────────── */
+.btn-admin-acceso {
+  width           : 44px;
+  height          : 44px;
+  min-width       : 44px;
+  border-radius   : 50%;
+  background      : var(--color-fondo2);
+  border          : 1.5px solid var(--borde-suave);
+  color           : var(--color-secundario);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  font-size       : 1.2rem;
+  text-decoration : none;
+  transition      : all 0.25s;
+}
+
+.btn-admin-acceso:hover {
+  background      : linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+  color           : white;
+  border-color    : var(--color-secundario);
+  transform       : scale(1.05);
+}
+
+
+/* ── Foto del personaje histórico ───────────────── */
+.foto-personaje {
+  width           : 100%;
+  max-width       : 320px;
+  height          : 460px;
+  object-fit      : cover;
+  border-radius   : 16px;
+  border          : 4px solid var(--color-acento);
+  box-shadow      : 0 8px 28px rgba(90,46,27,0.20);
+}
+
+@media (max-width: 576px) {
+  .foto-personaje {
+    max-width: 280px;
+    height: 380px;
+  }
+}
+
+@media (max-width: 576px) {
+  .foto-personaje {
+    max-width: 280px;
+    height: 340px;
+  }
+}
+
+/* ── Fotos de la galería ──────────────────────────── */
+.foto-galeria {
+  width           : 100%;
+  height          : 160px;
+  object-fit      : cover;
+  border-radius   : 12px;
+  border          : 1px solid var(--borde-suave);
+  box-shadow      : 0 4px 14px rgba(90,46,27,0.10);
+  cursor          : pointer;
+  transition      : transform 0.25s, box-shadow 0.25s;
+}
+
+.foto-galeria:hover {
+  transform       : scale(1.03);
+  box-shadow      : 0 8px 22px rgba(90,46,27,0.20);
+}
+
+/* ── Modal de imagen ampliada ─────────────────────── */
+.modal-img-overlay {
+  position        : fixed;
+  inset           : 0;
+  background      : rgba(43,30,20,0.85);
+  display         : none;
+  align-items     : center;
+  justify-content : center;
+  z-index         : 2000;
+  padding         : 2rem;
+}
+
+.modal-img-overlay.activo {
+  display         : flex;
+}
+
+.modal-img-overlay img {
+  max-width       : 100%;
+  max-height      : 90vh;
+  border-radius   : 12px;
+  box-shadow      : 0 10px 40px rgba(0,0,0,0.4);
+}
+
+.modal-img-overlay .cerrar-modal {
+  position        : absolute;
+  top             : 1.5rem;
+  right           : 1.5rem;
+  color           : white;
+  font-size       : 2rem;
+  cursor          : pointer;
+}
+
+
+/* =====================================================
+   LÍNEA DE TIEMPO — estilo visual
+   ===================================================== */
+.timeline {
+  position        : relative;
+  padding-left    : 2rem;
+  margin-top      : 1.5rem;
+}
+
+.timeline::before {
+  content         : '';
+  position        : absolute;
+  left            : 0.6rem;
+  top             : 0;
+  bottom          : 0;
+  width           : 2px;
+  background      : var(--color-acento);
+}
+
+.timeline-item {
+  position        : relative;
+  margin-bottom   : 1.8rem;
+}
+
+.timeline-punto {
+  position        : absolute;
+  left            : -1.72rem;
+  top             : 0.35rem;
+  width           : 14px;
+  height          : 14px;
+  border-radius   : 50%;
+  background      : var(--color-primario);
+  border          : 2px solid var(--color-acento);
+}
+
+.timeline-fecha {
+  display         : inline-block;
+  background      : linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+  color           : white;
+  font-size       : 0.75rem;
+  font-weight     : 600;
+  letter-spacing  : 0.05em;
+  padding         : 0.25rem 0.9rem;
+  border-radius   : 50px;
+  margin-bottom   : 0.5rem;
+}
+
+.timeline-contenido h5 {
+  color           : var(--color-secundario);
+  margin-bottom   : 0.25rem;
+  font-family     : 'Playfair Display', serif;
+  font-size       : 1.15rem;
+}
+
+.timeline-contenido p {
+  color           : var(--color-texto-suave);
+  font-size       : 0.92rem;
+  margin-bottom   : 0;
+}

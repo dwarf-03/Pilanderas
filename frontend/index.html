@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Las Pilanderas — Riohacha, La Guajira</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR / LOGO ─────────────────────────────── -->
+<nav class="navbar-pilanderas justify-content-between">
+  <div class="d-flex align-items-center gap-3">
+    <img src="images/logo-pilanderas.png" alt="Logo" class="logo-header"/>
+    <div class="marca-texto">
+      <h5>LAS PILANDERAS</h5>
+      <small>PATRIMONIO DE LA GUAJIRA</small>
+    </div>
+  </div>
+
+  <a href="admin/login.html" class="btn-admin-acceso" title="Acceso administrador">
+    <i class="bi bi-person-fill"></i>
+  </a>
+</nav>
+
+  <main class="container my-4">
+
+    <!-- ══════════════════════════════════════════════
+        SECCIÓN 1 — FORMULARIO
+    ═══════════════════════════════════════════════ -->
+    <div id="seccionFormulario">
+      <div class="card card-formulario mb-4">
+        <div class="card-header">
+          <i class="bi bi-person-lines-fill"></i> Registro de Visitante
+        </div>
+        <div class="card-body p-4">
+
+          <p class="text-muted mb-4">
+            Bienvenido/a. Por favor completa este breve formulario.
+            Tu información nos ayuda a mejorar la experiencia turística.
+          </p>
+
+          <form id="formVisitante" novalidate>
+
+            <!-- Nombre -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                <i class="bi bi-person"></i> Nombre completo *
+              </label>
+              <input type="text" class="form-control" id="nombre"
+                     placeholder="Ej: María González" required/>
+            </div>
+
+            <!-- Rango de edad -->
+            <div class="mb-4">
+              <div class="label-grupo">Rango de edad</div>
+              <div class="grupo-opciones" id="grupo-edad">
+                <button type="button" class="opcion-btn" data-valor="menor_18">Menor de 18</button>
+                <button type="button" class="opcion-btn" data-valor="18_25">18 – 25</button>
+                <button type="button" class="opcion-btn" data-valor="26_35">26 – 35</button>
+                <button type="button" class="opcion-btn" data-valor="36_45">36 – 45</button>
+                <button type="button" class="opcion-btn" data-valor="46_60">46 – 60</button>
+                <button type="button" class="opcion-btn" data-valor="mayor_60">Mayor de 60</button>
+              </div>
+              <input type="hidden" id="rango_edad"/>
+            </div>
+
+            <!-- Procedencia -->
+            <div class="mb-4">
+              <div class="label-grupo">Procedencia</div>
+              <div class="grupo-opciones" id="grupo-procedencia">
+                <button type="button" class="opcion-btn" data-valor="Riohacha">Riohacha</button>
+                <button type="button" class="opcion-btn" data-valor="Otro municipio de La Guajira">Otro mun. de La Guajira</button>
+                <button type="button" class="opcion-btn" data-valor="Otro departamento de Colombia">Otro dpto. de Colombia</button>
+                <button type="button" class="opcion-btn" data-valor="Extranjero">Extranjero</button>
+              </div>
+              <input type="hidden" id="procedencia"/>
+            </div>
+
+            <!-- Tipo de visitante -->
+            <div class="mb-4">
+              <div class="label-grupo">Tipo de visitante</div>
+              <div class="grupo-opciones" id="grupo-tipo">
+                <button type="button" class="opcion-btn" data-valor="turista_nacional">Turista</button>
+                <button type="button" class="opcion-btn" data-valor="residente_local">Residente</button>
+                <button type="button" class="opcion-btn" data-valor="estudiante">Estudiante</button>
+                <button type="button" class="opcion-btn" data-valor="investigador">Investigador</button>
+                <button type="button" class="opcion-btn" data-valor="otro">Otro</button>
+              </div>
+              <input type="hidden" id="tipo_visitante"/>
+            </div>
+
+            <!-- Calificación -->
+            <div class="mb-3 text-center">
+              <div class="label-grupo justify-content-center">¿Cómo calificarías tu visita?</div>
+              <div class="estrellas" id="estrellas">
+                <span class="estrella" data-valor="1">★</span>
+                <span class="estrella" data-valor="2">★</span>
+                <span class="estrella" data-valor="3">★</span>
+                <span class="estrella" data-valor="4">★</span>
+                <span class="estrella" data-valor="5">★</span>
+              </div>
+              <input type="hidden" id="calificacion"/>
+            </div>
+
+            <!-- Comentario -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                <i class="bi bi-chat-text"></i> Comentario (opcional)
+              </label>
+              <textarea class="form-control" id="comentario" rows="3"
+                        placeholder="¿Qué te pareció el monumento?"></textarea>
+            </div>
+
+            <!-- Botón enviar -->
+            <button type="submit" class="btn btn-pilanderas">
+              <i class="bi bi-send-fill"></i> Registrar visita
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         SECCIÓN 2 — CONFIRMACIÓN + INFO CULTURAL
+         Oculta al inicio, se muestra tras el envío
+    ═══════════════════════════════════════════════ -->
+    <div id="seccionContenido" style="display:none;">
+
+      <!-- Mensaje de éxito -->
+      <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+        <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+        <div>
+          <strong>¡Registro exitoso!</strong> Gracias
+          <span id="nombreVisitante" class="fw-bold"></span>,
+          tu visita quedó registrada el
+          <span id="fechaRegistro" class="fw-bold"></span>.
+        </div>
+      </div>
+
+      <!-- Navegación interna -->
+      <nav class="nav nav-pills flex-nowrap overflow-auto mb-4 gap-2" id="navCultural">
+        <a class="nav-link active" href="#personaje">👤 Personaje</a>
+        <a class="nav-link" href="#resena">📖 Reseña</a>
+        <a class="nav-link" href="#significado">🌺 Significado</a>
+        <a class="nav-link" href="#importancia">⭐ Importancia</a>
+        <a class="nav-link" href="#timeline">📅 Línea de tiempo</a>
+        <a class="nav-link" href="#galeria">📷 Galería</a>
+        <a class="nav-link" href="#ubicacion">📍 Ubicación</a>
+      </nav>
+
+      <div class="seccion-cultural">
+
+        <!-- ── 1. PERSONAJE HISTÓRICO ────────────────── -->
+        <section id="personaje" class="mb-5">
+          <h2><i class="bi bi-person-badge"></i> Personaje Histórico</h2>
+          <div class="row align-items-center mt-3">
+            <div class="col-md-4 text-center mb-3 mb-md-0">
+              <img src="images/personaje.jpeg" alt="La Mujer Pilandera Wayuu" class="foto-personaje mx-auto"/>
+            </div>
+            <div class="col-md-8">
+              <h4 style="color:var(--color-secundario)">La Mujer Pilandera Wayuu</h4>
+              <p>
+                Las <strong>pilanderas</strong> eran mujeres indígenas wayuu que cumplían
+                un rol fundamental en la vida cotidiana de sus comunidades. Su nombre
+                proviene del <strong>pilón</strong>, instrumento ancestral de madera usado
+                para moler y desgranar el maíz, la yuca y otros granos esenciales en la
+                alimentación de La Guajira.
+              </p>
+              <p>
+                Más allá de su labor doméstica, estas mujeres eran portadoras y
+                transmisoras de la <strong>memoria cultural wayuu</strong>: sus cantos
+                durante el pilado, sus historias y su sabiduría pasaban de generación
+                en generación alrededor del pilón.
+              </p>
+              <div class="dato-cultural">
+                <i class="bi bi-quote text-warning fs-5"></i>
+                <em> "En cada golpe del pilón vivía la voz de nuestras abuelas."</em>
+                <br><small class="text-muted">— Tradición oral wayuu</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="my-4"/>
+
+        <!-- ── 2. RESEÑA HISTÓRICA ─────────────────── -->
+        <section id="resena" class="mb-5">
+          <h2><i class="bi bi-book"></i> Reseña Histórica</h2>
+          <p class="mt-3">
+            El <strong>Monumento Las Pilanderas</strong> se erige en el malecón de
+            Riohacha como símbolo vivo de la identidad cultural del pueblo guajiro.
+            La obra fue concebida para inmortalizar la figura de las mujeres wayuu
+            que durante siglos sostuvieron la economía doméstica y la tradición
+            de la región mediante el pilado manual de granos.
+          </p>
+          <p>
+            Riohacha, fundada en el siglo XVI, fue desde sus orígenes un territorio
+            de confluencia entre la cultura española y la indígena wayuu. En este
+            contexto histórico, las pilanderas representan la resistencia y
+            permanencia de las tradiciones ancestrales frente a la colonización.
+          </p>
+          <p>
+            El monumento fue instalado como parte de los esfuerzos del municipio
+            por recuperar y visibilizar el <strong>patrimonio cultural inmaterial</strong>
+            de La Guajira, reconociendo el papel protagónico de la mujer indígena
+            en la construcción de la identidad regional.
+          </p>
+        </section>
+
+        <hr class="my-4"/>
+
+        <!-- ── 3. SIGNIFICADO CULTURAL ────────────── -->
+        <section id="significado" class="mb-5">
+          <h2><i class="bi bi-stars"></i> Significado Cultural</h2>
+          <div class="row g-3 mt-2">
+            <div class="col-md-6">
+              <div class="dato-cultural h-100">
+                <h5>🌽 El Pilón como símbolo</h5>
+                <p class="mb-0">
+                  El pilón no era solo una herramienta: representaba el punto de
+                  encuentro comunitario donde las mujeres compartían saberes,
+                  resolvían conflictos y fortalecían los lazos del clan.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dato-cultural h-100">
+                <h5>👩 La mujer wayuu</h5>
+                <p class="mb-0">
+                  En la cultura wayuu la mujer ocupa un lugar central: es ella quien
+                  define el linaje, administra los bienes del clan y transmite la
+                  identidad cultural. Las pilanderas encarnan ese poder femenino ancestral.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dato-cultural h-100">
+                <h5>🎵 El canto del pilado</h5>
+                <p class="mb-0">
+                  Mientras pilaban, las mujeres entonaban canciones tradicionales
+                  llamadas <strong>jayeechi</strong>, género musical wayuu declarado
+                  Patrimonio Cultural Inmaterial por el Ministerio de Cultura de Colombia.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dato-cultural h-100">
+                <h5>🧶 Legado vivo</h5>
+                <p class="mb-0">
+                  El monumento recuerda que la cultura wayuu no es historia pasada
+                  sino presente activo: hoy miles de mujeres wayuu continúan
+                  tejiendo, cocinando y cantando en La Guajira.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="my-4"/>
+
+        <!-- ── 4. IMPORTANCIA ──────────────────────── -->
+        <section id="importancia" class="mb-5">
+          <h2><i class="bi bi-trophy"></i> Importancia para Riohacha y La Guajira</h2>
+          <div class="row g-3 mt-2">
+            <div class="col-md-4">
+              <div class="text-center p-3" style="background:var(--color-claro);border-radius:12px;">
+                <div style="font-size:2.5rem">🏛️</div>
+                <h5 class="mt-2" style="color:var(--color-secundario)">Patrimonio</h5>
+                <p class="small mb-0">
+                  Es uno de los monumentos más fotografiados de Riohacha y referente
+                  obligado del turismo cultural en La Guajira.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center p-3" style="background:var(--color-claro);border-radius:12px;">
+                <div style="font-size:2.5rem">🤝</div>
+                <h5 class="mt-2" style="color:var(--color-secundario)">Identidad</h5>
+                <p class="small mb-0">
+                  Representa el orgullo guajiro y la reivindicación de los pueblos
+                  indígenas como fundadores de la cultura regional.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center p-3" style="background:var(--color-claro);border-radius:12px;">
+                <div style="font-size:2.5rem">📈</div>
+                <h5 class="mt-2" style="color:var(--color-secundario)">Turismo</h5>
+                <p class="small mb-0">
+                  Atrae visitantes nacionales e internacionales que llegan al malecón
+                  de Riohacha motivados por conocer la cultura wayuu.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="my-4"/>
+
+        <!-- ── 5. LÍNEA DE TIEMPO ──────────────────── -->
+        <section id="timeline" class="mb-5">
+          <h2><i class="bi bi-clock-history"></i> Línea de Tiempo</h2>
+          <div class="timeline mt-4">
+
+            <div class="timeline-item">
+              <div class="timeline-punto"></div>
+              <div class="timeline-contenido">
+                <span class="timeline-fecha">Siglo XVI</span>
+                <h5>Fundación de Riohacha</h5>
+                <p>Los españoles llegan al territorio wayuu. Las pilanderas ya
+                formaban parte esencial de la vida cotidiana indígena.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-punto"></div>
+              <div class="timeline-contenido">
+                <span class="timeline-fecha">Siglos XVII – XIX</span>
+                <h5>Resistencia cultural wayuu</h5>
+                <p>A pesar de la colonización, el pueblo wayuu preservó sus
+                tradiciones. El pilado del maíz continuó siendo práctica central
+                en las comunidades.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-punto"></div>
+              <div class="timeline-contenido">
+                <span class="timeline-fecha">Siglo XX</span>
+                <h5>Reconocimiento cultural</h5>
+                <p>La cultura wayuu comienza a ser reconocida oficialmente.
+                Las artesanías y tradiciones indígenas ganan visibilidad nacional.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-punto"></div>
+              <div class="timeline-contenido">
+                <span class="timeline-fecha">2000s</span>
+                <h5>Instalación del monumento</h5>
+                <p>Se inaugura el Monumento Las Pilanderas en el malecón de
+                Riohacha como homenaje permanente a la mujer wayuu.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-punto"></div>
+              <div class="timeline-contenido">
+                <span class="timeline-fecha">Hoy</span>
+                <h5>Patrimonio vivo</h5>
+                <p>El monumento es símbolo turístico y cultural de Riohacha,
+                visitado por miles de personas cada año.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <hr class="my-4"/>
+
+        <!-- ── 6. GALERÍA FOTOGRÁFICA ──────────────── -->
+       <section id="galeria" class="mb-5">
+  <h2><i class="bi bi-images"></i> Galería Fotográfica</h2>
+  
+  <div class="row g-3 mt-2">
+    <div class="col-6 col-md-4">
+      <img src="images/galeria1.jpeg" alt="Galería Las Pilanderas 1" class="foto-galeria" onclick="abrirModal(this.src)"/>
+    </div>
+    <div class="col-6 col-md-4">
+      <img src="images/galeria2.jpeg" alt="Galería Las Pilanderas 2" class="foto-galeria" onclick="abrirModal(this.src)"/>
+    </div>
+    <div class="col-6 col-md-4">
+      <img src="images/galeria3.jpeg" alt="Galería Las Pilanderas 3" class="foto-galeria" onclick="abrirModal(this.src)"/>
+    </div>
+    <div class="col-6 col-md-4">
+      <img src="images/galeria4.jpeg" alt="Galería Las Pilanderas 4" class="foto-galeria" onclick="abrirModal(this.src)"/>
+    </div>
+    <div class="col-6 col-md-4">
+      <img src="images/galeria5.jpeg" alt="Galería Las Pilanderas 5" class="foto-galeria" onclick="abrirModal(this.src)"/>
+    </div>
+    <div class="col-6 col-md-4">
+      <img src="images/galeria6.jpeg" alt="Galería Las Pilanderas 6" class="foto-galeria" onclick="abrirModal(this.src)"/>
+    </div>
+  </div>
+</section>
+
+        <hr class="my-4"/>
+
+        <!-- ── 7. UBICACIÓN + GOOGLE MAPS ─────────── -->
+        <section id="ubicacion" class="mb-4">
+          <h2><i class="bi bi-geo-alt"></i> Ubicación</h2>
+          <div class="dato-cultural mt-3">
+            <p class="mb-1">
+              <i class="bi bi-pin-map-fill text-warning"></i>
+              <strong> Dirección:</strong> Malecón de Riohacha, Calle 1 con Carrera 8,
+              Riohacha, La Guajira, Colombia
+            </p>
+            <p class="mb-0">
+              <i class="bi bi-clock-fill text-warning"></i>
+              <strong> Horario:</strong> Acceso libre — 24 horas
+            </p>
+          </div>
+
+          <!-- Mapa embebido -->
+          <div class="mt-3 rounded overflow-hidden" style="border:3px solid var(--color-primario)">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3921.8!2d-72.9068!3d11.5444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e897b4dfb7c4e6f%3A0x1!2sMal%C3%A9con%20de%20Riohacha!5e0!3m2!1ses!2sco!4v1"
+              width="100%"
+              height="250"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+
+          <!-- Botón Google Maps -->
+          <div class="text-center mt-3">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Monumento+Las+Pilanderas+Riohacha+La+Guajira"
+               target="_blank"
+               class="btn btn-maps">
+              <i class="bi bi-map-fill"></i> ¿Cómo llegar? — Abrir en Google Maps
+            </a>
+          </div>
+        </section>
+
+        <!-- Botón volver -->
+        <div class="text-center mt-4 pt-3 border-top">
+          <button onclick="volverFormulario()" class="btn btn-pilanderas">
+            <i class="bi bi-arrow-left"></i> Registrar otro visitante
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer-custom">
+    <p>🏛️ Monumento Las Pilanderas — Riohacha, La Guajira</p>
+    <p>Sistema desarrollado con fines académicos · Universidad</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/formulario.js"></script>
+
+
+  <!-- ── Modal para ampliar imágenes ─────────────────── -->
+<div class="modal-img-overlay" id="modalImagen" onclick="cerrarModal()">
+  <span class="cerrar-modal">&times;</span>
+  <img id="imagenModal" src="" alt="Imagen ampliada"/>
+</div>
+</body>
+</html>
