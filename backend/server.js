@@ -2,11 +2,11 @@
 // Punto de entrada principal del servidor
 
 const express = require('express');
-const cors    = require('cors');
-const path    = require('path');
+const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
-const app  = express();
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Middlewares ──────────────────────────────────────────
@@ -21,8 +21,8 @@ app.use(express.static(frontendPath));
 
 // ── RUTAS API ────────────────────────────────────────────
 app.use('/api/visitantes', require('./routes/visitantes'));
-app.use('/api/stats',      require('./routes/stats'));
-app.use('/api/auth',       require('./routes/auth'));
+app.use('/api/stats', require('./routes/stats'));
+app.use('/api/auth', require('./routes/auth'));
 
 // ── RUTA DE PRUEBA ───────────────────────────────────────
 app.get('/api/test', (req, res) => {
@@ -33,8 +33,8 @@ app.get('/api/test', (req, res) => {
     });
 });
 
-// ── FRONTEND FALLBACK (SPA / HTML) ───────────────────────
-app.get('*', (req, res) => {
+// ── FRONTEND FALLBACK (EXPRESS 5) ────────────────────────
+app.use((req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
