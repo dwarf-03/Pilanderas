@@ -1,5 +1,5 @@
 // backend/controllers/authController.js
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt    = require('jsonwebtoken');
 const db     = require('../config/db');
 
