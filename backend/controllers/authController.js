@@ -27,13 +27,13 @@ const authController = {
 
       const admin = filas[0];
 
-      const esValida = await bcrypt.compare(password, admin.password_hash);
+const esValida = await bcrypt.compare(password, admin.password);
 
-      if (!esValida) {
-        return res.status(401).json({
-          ok: false, mensaje: 'Credenciales incorrectas'
-        });
-      }
+if (!esValida) {
+  return res.status(401).json({
+    ok: false, mensaje: 'Credenciales incorrectas'
+  });
+}
 
       const token = jwt.sign(
         { id: admin.id, email: admin.email, nombre: admin.nombre },

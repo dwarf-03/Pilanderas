@@ -15,15 +15,6 @@ db.getConnection()
 .then((connection) => {
     console.log('✅ Conexión a MySQL exitosa');
     connection.release();
-
-    db.query("SELECT * FROM administradores")
-    .then(([rows]) => {
-        console.log("✅ ADMINISTRADORES:", rows);
-    })
-    .catch(err => {
-        console.error("❌ Error tabla:", err.message);
-    });
-
 })
 .catch((err) => {
     console.error('❌ Error conectando a MySQL:', err.message);
