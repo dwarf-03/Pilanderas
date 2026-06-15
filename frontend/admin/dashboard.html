@@ -8,11 +8,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
   <link rel="stylesheet" href="../css/styles.css"/>
   <style>
-    /* Anular el ancho máximo del formulario para el dashboard */
     main.container-fluid {
       max-width: 100% !important;
     }
-
     .kpi-card {
       background: #FFFDF8;
       border: 1px solid var(--borde-suave);
@@ -61,6 +59,28 @@
       white-space: nowrap;
     }
     .btn-logout:hover { background: var(--color-primario); color: white; }
+    .btn-variable {
+      padding      : 4px 14px;
+      border       : 1px solid var(--borde-suave);
+      border-radius: 20px;
+      background   : transparent;
+      color        : var(--color-texto);
+      font-size    : 0.80rem;
+      cursor       : pointer;
+      transition   : all 0.15s;
+    }
+    .btn-variable.activo {
+      background   : var(--color-secundario);
+      border-color : var(--color-secundario);
+      color        : #fff;
+    }
+    .btn-variable:disabled {
+      opacity      : 0.35;
+      cursor       : not-allowed;
+    }
+    .btn-variable:hover:not(:disabled):not(.activo) {
+      background   : var(--color-fondo2, #f5f0e8);
+    }
   </style>
 </head>
 <body>
@@ -84,36 +104,77 @@
 
   <div class="franja-mochila"></div>
 
-  <main class="container-fluid px-4 my-4">
-
-    <h2 class="mb-4" style="color:var(--color-secundario)">
-      <i class="bi bi-bar-chart-line"></i> Dashboard Estadístico
-    </h2>
-
-<!-- ── FILTRO DE FECHAS ───────────────────────────── -->
-<div class="grafica-card mb-3">
-  <div class="d-flex flex-wrap align-items-end gap-3">
-    <div>
-      <div class="label-grupo">Desde</div>
-      <input type="date" class="form-control" id="filtroDesde" onchange="aplicarFiltroFechas()"/>
-    </div>
-    <div>
-      <div class="label-grupo">Hasta</div>
-      <input type="date" class="form-control" id="filtroHasta" onchange="aplicarFiltroFechas()"/>
-    </div>
-    <div class="flex-grow-1">
-      <div class="label-grupo">Filtros rápidos</div>
-      <div class="grupo-opciones">
-        <button type="button" class="opcion-btn filtro-rapido" data-filtro="hoy" onclick="filtroRapido('hoy')">Hoy</button>
-        <button type="button" class="opcion-btn filtro-rapido" data-filtro="semana" onclick="filtroRapido('semana')">Esta semana</button>
-        <button type="button" class="opcion-btn filtro-rapido" data-filtro="mes" onclick="filtroRapido('mes')">Este mes</button>
-        <button type="button" class="opcion-btn filtro-rapido seleccionado" data-filtro="todo" onclick="filtroRapido('todo')">Todo</button>
+  <!-- ── MODAL DE EXPORTACIÓN ──────────────────────── -->
+<div class="modal fade" id="modalExportar" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:14px; border:1px solid var(--borde-suave);">
+      <div class="modal-header" style="border-bottom:1px solid var(--borde-suave);">
+        <h5 class="modal-title" style="color:var(--color-secundario);">
+          <i class="bi" id="modalExportarIcono"></i>
+          <span id="modalExportarTitulo"></span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small mb-3">Selecciona las secciones que deseas incluir:</p>
+        <div class="d-flex flex-column gap-2" id="opcionesExportar"></div>
+      </div>
+      <div class="modal-footer" style="border-top:1px solid var(--borde-suave);">
+        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-sm" id="btnConfirmarExportar"
+                style="background:var(--color-secundario);color:#fff;border:none;">
+          <i class="bi" id="iconoConfirmar"></i>
+          <span id="textoConfirmar">Exportar</span>
+        </button>
       </div>
     </div>
   </div>
-</div> 
+</div>
 
-    <!-- ── INDICADORES GENERALES (según rúbrica) ──── -->
+  <main class="container-fluid px-4 my-4">
+
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+  <h2 class="mb-0" style="color:var(--color-secundario)">
+    <i class="bi bi-bar-chart-line"></i> Dashboard Estadístico
+  </h2>
+  <div class="d-flex gap-2">
+    <button class="btn btn-sm"
+            style="background:var(--color-secundario);color:#fff;border:none;border-radius:8px;"
+            onclick="abrirModalExportar('excel')">
+      <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+    </button>
+    <button class="btn btn-sm"
+            style="background:var(--color-acento);color:#fff;border:none;border-radius:8px;"
+            onclick="abrirModalExportar('pdf')">
+      <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
+    </button>
+  </div>
+</div>
+
+    <!-- ── FILTRO DE FECHAS ───────────────────────────── -->
+    <div class="grafica-card mb-3">
+      <div class="d-flex flex-wrap align-items-end gap-3">
+        <div>
+          <div class="label-grupo">Desde</div>
+          <input type="date" class="form-control" id="filtroDesde" onchange="aplicarFiltroFechas()"/>
+        </div>
+        <div>
+          <div class="label-grupo">Hasta</div>
+          <input type="date" class="form-control" id="filtroHasta" onchange="aplicarFiltroFechas()"/>
+        </div>
+        <div class="flex-grow-1">
+          <div class="label-grupo">Filtros rápidos</div>
+          <div class="grupo-opciones">
+            <button type="button" class="opcion-btn filtro-rapido" data-filtro="hoy"    onclick="filtroRapido('hoy')">Hoy</button>
+            <button type="button" class="opcion-btn filtro-rapido" data-filtro="semana" onclick="filtroRapido('semana')">Esta semana</button>
+            <button type="button" class="opcion-btn filtro-rapido" data-filtro="mes"    onclick="filtroRapido('mes')">Este mes</button>
+            <button type="button" class="opcion-btn filtro-rapido seleccionado" data-filtro="todo" onclick="filtroRapido('todo')">Todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INDICADORES GENERALES ──────────────────────── -->
     <div class="label-grupo">Indicadores Generales</div>
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-4 col-xl">
@@ -148,7 +209,7 @@
       </div>
     </div>
 
-    <!-- ── INDICADORES ADICIONALES ─────────────────── -->
+    <!-- ── INDICADORES ADICIONALES ─────────────────────── -->
     <div class="label-grupo">Indicadores Adicionales</div>
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-4 col-xl">
@@ -183,7 +244,7 @@
       </div>
     </div>
 
-    <!-- ── GRÁFICAS ───────────────────────────────── -->
+    <!-- ── GRÁFICAS BASE ──────────────────────────────── -->
     <div class="row g-3">
       <div class="col-md-6 col-xl-4">
         <div class="grafica-card">
@@ -233,9 +294,219 @@
           <canvas id="chartPrimeraVisita"></canvas>
         </div>
       </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="grafica-card">
+          <h5><i class="bi bi-bar-chart-steps"></i> Histograma — Distribución de Edad</h5>
+          <canvas id="chartHistogramaEdad"></canvas>
+        </div>
+      </div>
     </div>
 
-    <!-- ── TABLA DE VISITANTES ────────────────────── -->
+    <!-- ── MEDIDAS ESTADÍSTICAS ───────────────────────── -->
+    <h4 class="mt-4 mb-3" style="color:var(--color-secundario)">
+      <i class="bi bi-calculator"></i> Medidas Estadísticas
+    </h4>
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="grafica-card">
+          <h5><i class="bi bi-star-fill"></i> Calificación de Visitantes</h5>
+          <div class="row text-center">
+            <div class="col-4">
+              <div class="medida-valor" id="medCalifMedia">—</div>
+              <div class="medida-etiqueta">Media</div>
+            </div>
+            <div class="col-4">
+              <div class="medida-valor" id="medCalifMediana">—</div>
+              <div class="medida-etiqueta">Mediana</div>
+            </div>
+            <div class="col-4">
+              <div class="medida-valor" id="medCalifModa">—</div>
+              <div class="medida-etiqueta">Moda</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="grafica-card">
+          <h5><i class="bi bi-calendar3"></i> Edad de los Visitantes</h5>
+          <div class="row text-center">
+            <div class="col-4">
+              <div class="medida-valor" id="medEdadMedia">—</div>
+              <div class="medida-etiqueta">Media (años)</div>
+            </div>
+            <div class="col-4">
+              <div class="medida-valor" id="medEdadMediana">—</div>
+              <div class="medida-etiqueta">Mediana (años)</div>
+            </div>
+            <div class="col-4">
+              <div class="medida-valor" id="medEdadModa" style="font-size:1rem">—</div>
+              <div class="medida-etiqueta">Moda (rango)</div>
+            </div>
+          </div>
+          <p class="text-muted small mt-3 mb-0">
+            <i class="bi bi-info-circle"></i>
+            La edad se registra por rangos. Media y mediana se calculan usando
+            el punto medio de cada rango (ej: 18–25 → 21.5 años).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ANÁLISIS COMPARATIVO ───────────────────────── -->
+    <h4 class="mt-2 mb-3" style="color:var(--color-secundario)">
+      <i class="bi bi-intersect"></i> Análisis Comparativo
+    </h4>
+
+    <!-- Selector dinámico -->
+    <div class="grafica-card mb-3">
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+        <span class="label-grupo mb-0" style="min-width:90px">Eje X:</span>
+        <div id="btnVarX" class="d-flex flex-wrap gap-1"></div>
+      </div>
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <span class="label-grupo mb-0" style="min-width:90px">Agrupar por:</span>
+        <div id="btnVarY" class="d-flex flex-wrap gap-1"></div>
+      </div>
+      <h5 id="tituloCruceVar" class="mb-3" style="color:var(--color-secundario)"></h5>
+      <canvas id="chartCruceDinamico" style="max-height:320px"></canvas>
+      <div id="legendaCruceDinamico"
+           class="d-flex flex-wrap gap-3 mt-3"
+           style="font-size:0.8rem;color:var(--color-texto-suave)">
+      </div>
+    </div>
+
+    <!-- Gráficos comparativos fijos -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="grafica-card">
+          <h5><i class="bi bi-geo-alt"></i> Edad vs Procedencia</h5>
+          <canvas id="chartEdadProcedencia"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="grafica-card">
+          <h5><i class="bi bi-people"></i> Edad vs Tipo de Visitante</h5>
+          <canvas id="chartEdadTipo"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="grafica-card">
+          <h5><i class="bi bi-diagram-2"></i> Procedencia vs Tipo</h5>
+          <canvas id="chartProcedenciaTipo"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="grafica-card">
+          <h5><i class="bi bi-star-fill"></i> Calificación vs Edad</h5>
+          <canvas id="chartCalificacionEdad"></canvas>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="grafica-card">
+          <h5><i class="bi bi-bar-chart"></i> Calificación vs Tipo de Visitante</h5>
+          <canvas id="chartCalificacionTipo"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TABLAS DE FRECUENCIA ───────────────────────── -->
+    <h4 class="mt-4 mb-3" style="color:var(--color-secundario)">
+      <i class="bi bi-list-columns-reverse"></i> Tablas de Frecuencia
+    </h4>
+    <div class="row g-3 mb-2">
+      <div class="col-md-6 col-xl-4">
+        <div class="grafica-card">
+          <h5><i class="bi bi-calendar3"></i> Rango de Edad</h5>
+          <div class="table-responsive">
+            <table class="table table-sm table-frecuencia mb-0">
+              <thead>
+                <tr>
+                  <th>Categoría</th>
+                  <th class="text-center">Fi</th>
+                  <th class="text-center">Fr</th>
+                  <th class="text-center">%</th>
+                </tr>
+              </thead>
+              <tbody id="tablaFrecEdad"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="grafica-card">
+          <h5><i class="bi bi-geo-alt"></i> Procedencia</h5>
+          <div class="table-responsive">
+            <table class="table table-sm table-frecuencia mb-0">
+              <thead>
+                <tr>
+                  <th>Categoría</th>
+                  <th class="text-center">Fi</th>
+                  <th class="text-center">Fr</th>
+                  <th class="text-center">%</th>
+                </tr>
+              </thead>
+              <tbody id="tablaFrecProcedencia"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="grafica-card">
+          <h5><i class="bi bi-people"></i> Tipo de Visitante</h5>
+          <div class="table-responsive">
+            <table class="table table-sm table-frecuencia mb-0">
+              <thead>
+                <tr>
+                  <th>Categoría</th>
+                  <th class="text-center">Fi</th>
+                  <th class="text-center">Fr</th>
+                  <th class="text-center">%</th>
+                </tr>
+              </thead>
+              <tbody id="tablaFrecTipo"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="grafica-card">
+          <h5><i class="bi bi-star-fill"></i> Calificación</h5>
+          <div class="table-responsive">
+            <table class="table table-sm table-frecuencia mb-0">
+              <thead>
+                <tr>
+                  <th>Categoría</th>
+                  <th class="text-center">Fi</th>
+                  <th class="text-center">Fr</th>
+                  <th class="text-center">%</th>
+                </tr>
+              </thead>
+              <tbody id="tablaFrecCalificacion"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="grafica-card">
+          <h5><i class="bi bi-arrow-repeat"></i> Primera Visita</h5>
+          <div class="table-responsive">
+            <table class="table table-sm table-frecuencia mb-0">
+              <thead>
+                <tr>
+                  <th>Categoría</th>
+                  <th class="text-center">Fi</th>
+                  <th class="text-center">Fr</th>
+                  <th class="text-center">%</th>
+                </tr>
+              </thead>
+              <tbody id="tablaFrecPrimeraVisita"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TABLA DE VISITANTES ────────────────────────── -->
     <div class="grafica-card mt-2">
       <h5><i class="bi bi-table"></i> Últimos Visitantes Registrados</h5>
       <div class="table-responsive">
@@ -267,6 +538,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="js/dashboard.js"></script>
 
 </body>
